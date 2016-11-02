@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <MageProfis_PartialReindex>
+            <version>0.0.0.1</version>
+        </MageProfis_PartialReindex>
+    </modules>
+    <global>
+        <models>
+            <mpindexer>
+                <class>MageProfis_PartialReindex_Model</class>
+            </mpindexer>
+        </models>
+
+        <helpers>
+            <mpindexer>
+                <class>MageProfis_PartialReindex_Helper</class>
+            </mpindexer>
+        </helpers>
+    </global>
+
+    <crontab>
+        <jobs>
+            <mp_indexer>
+                <schedule>
+                    <cron_expr>*/15 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>mpindexer/indexer::reindexProducts</model>
+                </run>
+            </mp_indexer>
+            <mp_indexer_link>
+                <schedule>
+                    <cron_expr>5 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>mpindexer/indexer::reindexEveryHour</model>
+                </run>
+            </mp_indexer_link>
+        </jobs>
+    </crontab>
+</config>
