@@ -20,9 +20,10 @@ class MageProfis_PartialReindex_Model_Indexer
 
     public function reindexProducts()
     {
+        $dynamiccategory = Mage::getModel('index/indexer')->getProcessByCode('dynamiccategory');
         $reindexed_products = false;
         if (Mage::getModel('index/indexer')->getProcessByCode('catalog_category_flat')->getStatus() == Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX
-           || Mage::getModel('index/indexer')->getProcessByCode('dynamiccategory')->getStatus() == Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX)
+           || ($dynamiccategory && $dynamiccategory->getStatus() == Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX))
         {
             Mage::getSingleton('index/indexer')->getProcessByCode('catalog_category_flat')->reindexEverything();
             Mage::getSingleton('index/indexer')->getProcessByCode('catalog_category_product')->reindexEverything();
