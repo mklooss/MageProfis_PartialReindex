@@ -1,0 +1,2 @@
+Reindex the product data via Crontab, also the category data
+so the best way is to set all indexers to "manual", to speed up the backend and frontend
