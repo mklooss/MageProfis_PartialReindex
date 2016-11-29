@@ -17,6 +17,35 @@
                 <class>MageProfis_PartialReindex_Helper</class>
             </mpindexer>
         </helpers>
+        <events>
+            <catalog_product_save_before> 
+                <observers>
+                    <mpindexer>
+                        <type>singleton</type>
+                        <class>mpindexer/observer</class>
+                        <method>beforeProductSave</method>
+                    </mpindexer>
+                </observers>
+            </catalog_product_save_before>
+            <controller_action_predispatch_adminhtml_catalog_product_massStatus> 
+                <observers>
+                    <mpindexer>
+                        <type>singleton</type>
+                        <class>mpindexer/observer</class>
+                        <method>preDispatchCatalogProductMassStatus</method>
+                    </mpindexer>
+                </observers>
+            </controller_action_predispatch_adminhtml_catalog_product_massStatus>
+            <controller_action_predispatch_adminhtml_catalog_product_action_attribute_validate> 
+                <observers>
+                    <mpindexer>
+                        <type>singleton</type>
+                        <class>mpindexer/observer</class>
+                        <method>preDispatchCatalogProductActionAttributeValidate</method>
+                    </mpindexer>
+                </observers>
+            </controller_action_predispatch_adminhtml_catalog_product_action_attribute_validate>
+        </events>
     </global>
 
     <crontab>
