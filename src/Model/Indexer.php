@@ -113,11 +113,18 @@ class MageProfis_PartialReindex_Model_Indexer
             $this->_connection()->update($this->getTableName('index_process'), array('status' => 'pending', 'ended_at' => date('Y-m-d H:i:s')), 'indexer_code=\'catalog_url\'');
         }
 
+        if (Mage::getModel('index/indexer')->getProcessByCode('catalogsearch_fulltext')->getStatus() == Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX) {
+            $this->_connection()->update($this->getTableName('index_process'), array('status' => 'working', 'started_at' => date('Y-m-d H:i:s')), 'indexer_code=\'catalogsearch_fulltext\'');
+            if (Mage::getStoreConfigFlag('dev/mp_indexer/enable_fulltext'))
+            {
+                Mage::getResourceSingleton('catalogsearch/fulltext')->rebuildIndex(null, $ids);
+            }
+            $this->_connection()->update($this->getTableName('index_process'), array('status' => 'pending', 'ended_at' => date('Y-m-d H:i:s')), 'indexer_code=\'catalogsearch_fulltext\'');
+        }
+        
         // mark this everytime as correct!
         $this->_connection()->update($this->getTableName('index_process'), array('status' => 'working', 'started_at' => date('Y-m-d H:i:s')), 'indexer_code=\'tag_summary\'');
         $this->_connection()->update($this->getTableName('index_process'), array('status' => 'pending', 'ended_at' => date('Y-m-d H:i:s')), 'indexer_code=\'tag_summary\'');
-        $this->_connection()->update($this->getTableName('index_process'), array('status' => 'working', 'started_at' => date('Y-m-d H:i:s')), 'indexer_code=\'catalogsearch_fulltext\'');
-        $this->_connection()->update($this->getTableName('index_process'), array('status' => 'pending', 'ended_at' => date('Y-m-d H:i:s')), 'indexer_code=\'catalogsearch_fulltext\'');
 
         // remove index info, from this products
         $where = "(entity = 'catalog_product' OR entity = 'cataloginventory_stock_item' OR entity = 'catalogsearch_fulltext' OR entity = 'tag_summary') AND ";
