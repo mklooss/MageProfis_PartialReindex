@@ -132,7 +132,7 @@ class MageProfis_PartialReindex_Model_Indexer
         $this->_connection()->delete($this->getTableName('index_event'), $where);
 
         $where = "(entity = 'catalog_product' OR entity = 'cataloginventory_stock_item' OR entity = 'catalogsearch_fulltext' OR entity = 'tag_summary') AND ";
-        $where .= $this->_connection()->quoteInto('entity_pk IS NULL');
+        $where .= $this->_connection()->quoteInto('entity_pk IS NULL', null);
         $this->_connection()->delete($this->getTableName('index_event'), $where);
     }
 
